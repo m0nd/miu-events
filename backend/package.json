@@ -4,10 +4,10 @@
   "description": "Backend for MIU-Events App",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Raymond, Berhanu, and Hadis",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -16,8 +16,11 @@
     "express": "^4.17.3",
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^4.4.1",
     "mongoose": "^6.2.6",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "rotating-file-stream": "^3.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
