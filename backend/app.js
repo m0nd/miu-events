@@ -7,6 +7,7 @@ const path = require('path');
 const logger = require('morgan');
 const cors = require('cors');
 
+
 /* 
     1a. DECLARE OTHER VARS
 */
