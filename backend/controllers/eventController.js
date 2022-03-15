@@ -94,3 +94,30 @@ module.exports.deleteEvent = async (req, res) => {
     });
   }
 };
+
+
+// Filter events by multiple conditions
+module.exports.filterEvents = async (req, res) => {
+  const filterCondition = req.query;
+
+  try {
+    const filteredEvents = await Event.find(filterCondition, {
+      title: 1,
+      description: 1,
+      address: 1,
+      price: 1,
+      organizer: 1,
+    }).populate("organizer", { firstname: 1, lastname: 1, email: 1 });
+
+    res.status(200).json({
+      success: true,
+      message: "Here are the events that match your filters",
+      data: filteredEvents,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server failure. Try later ...",
+    });
+  }
+};
