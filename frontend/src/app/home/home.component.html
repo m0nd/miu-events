@@ -1,14 +1,19 @@
+<h1>Current Events Near MIU</h1>
 <mat-grid-list cols="4">
     <mat-grid-tile *ngFor="let event of eventsList">
         <mat-card class="event-card">
             <mat-card-header>
               <mat-card-title>{{event.title}}</mat-card-title>
-              <mat-card-subtitle>{{event.startDate}}</mat-card-subtitle>
+              <mat-card-subtitle>{{event.eventDate | date}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
               <p>
                 {{event.description}}
               </p>
+              <p>
+                  {{event.category}}
+              </p>
+              <p>{{event.address}}</p>
             </mat-card-content>
           </mat-card>
     </mat-grid-tile>
