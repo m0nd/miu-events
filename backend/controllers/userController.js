@@ -7,6 +7,7 @@ const generateToken = require("../middlewares/auth");
 // create new user
 module.exports.signup = (req, res) => {
   let { firstname, lastname, email, password } = req.body;
+ 
   bcrypt.hash(password, 8, (err, hash) => {
     password = hash;
     const user = new User({
