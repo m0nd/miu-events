@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Event = require("../models/Event");
 
+// Create event
 module.exports.createEvent = (req, res) => {
   const {
     title,
@@ -91,6 +92,27 @@ module.exports.deleteEvent = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Couldn't delete resource. Try again later ...",
+    });
+  }
+};
+
+// Get recent 8 events
+module.exports.getRecentEvents = async (req, res) => {
+  const { numberOfEvents } = req.params;
+  try {
+    const data = await Event.find({})
+      .sort({ startDate: -1 })
+      .limit(parseInt(numberOfEvents));
+
+    return res.status(200).json({
+      success: true,
+      message: "Retrieved List of Events",
+      data: data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Server Failure. Try later ...",
     });
   }
 };
