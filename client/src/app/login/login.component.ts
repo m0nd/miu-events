@@ -10,6 +10,7 @@ import { AuthService } from '../_services/auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm:any;
+  isLoggedIn = false;
   submitted = false;
   result:any = {};
 
@@ -38,11 +39,12 @@ export class LoginComponent implements OnInit {
           response => { 
             this.result.message = response.message;
             this.result.success = response.success; 
-            console.log(response.token)
+            console.log(response)
             localStorage.setItem(
               "LoggedInUserData",
               JSON.stringify(response)
             );
+            this.isLoggedIn = true;
             this._router.navigate(["protected"])
           },
           error => {
