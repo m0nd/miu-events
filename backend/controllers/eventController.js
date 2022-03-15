@@ -117,28 +117,37 @@ module.exports.getRecentEvents = async (req, res) => {
   }
 };
 
-// Filter events by multiple conditions
-module.exports.filterEvents = async (req, res) => {
-  const filterCondition = req.query;
-
+// Search for events using any search term
+module.exports.searchEvents = async (req, res) => {
   try {
-    const filteredEvents = await Event.find(filterCondition, {
-      title: 1,
-      description: 1,
-      address: 1,
-      price: 1,
-      organizer: 1,
-    }).populate("organizer", { firstname: 1, lastname: 1, email: 1 });
+    const { searchTerm } = req.query;
+    const searchResult = await Event.find(
+      { $text: { $search: searchTerm } },
+      {
+        title: 1,
+        description: 1,
+        eventDate: 1,
+        price: 1,
+        address: 1,
+        organizer: 1,
+      }
+    ).populate("organizer", { _id: 0, firstname: 1, lastname: 1 });
 
+    if (searchResult.length == 0) {
+      return res.json({
+        success: true,
+        message:
+          "No events matched your search. See if you like these popular events...",
+      });
+    }
     res.status(200).json({
       success: true,
-      message: "Here are the events that match your filters",
-      data: filteredEvents,
+      data: searchResult,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Server failure. Try later ...",
+      message: "Server Failure: " + error,
     });
   }
 };
