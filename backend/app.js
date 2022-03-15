@@ -1,59 +1,71 @@
-/* 
-    1. INCLUDE DEPENDENCIES
-*/
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const logger = require('morgan');
-const cors = require('cors');
 
+const express = require("express");
+const cors = require("cors");
+const logger = require("morgan");
+const mongoose = require("mongoose");
+const rfs = require("rotating-file-stream");
+const path = require("path");
+const dotenv = require("dotenv");
+dotenv.config(path.join(__dirname, "./.env"));
 
-/* 
-    1a. DECLARE OTHER VARS
-*/
-const logFile = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'});
+const DB_NAME =
+  process.env.NODE_ENV === "test"
+    ? process.env.TEST_DB_NAME
+    : process.env.DB_NAME;
 
+const DB_URL =
+  process.env.DB_URL ||
+  `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PWD}@cluster0.2mxxu.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
 
-/* 
-    2. INIT EXPRESS
-*/
+// Initialization
 const app = express();
 
-/* 
-    3. MAKE CONFIG CHANGES
-*/
-app.disable('x-powered-by');
-
-
-/* 
-    4. SET UP MIDDLEWARE
-*/
-// Accept cross-domain XHR requests
-app.use(cors());
-
-// Log all requests
-app.use(logger('common', {stream: logFile}));
-
-// Forward requests to /pictures/* for static images to /assets/pics/*
-app.use('/pictures', express.static(path.join(__dirname, 'assets', 'pics')));
-
-// Add JSON body parsing to all routes
-app.use(express.json());
-
-
-/* 
-    5. SET UP ROUTING
-*/
-
-
-/* 
-    6. SET UP ERROR HANDLERS
-*/
-app.use((err, req, res, next) => {
-    //res.status(400).json({error: err.message});
+// create a rotating write stream
+let accessLogStream = rfs.createStream("access.log", {
+  interval: "1d", // rotate daily
+  path: path.join(__dirname, "log"),
 });
 
+// Configuration
+app.disable("x-powered-by");
 
-/* 
-    7. INITIALIZE SERVER AND LISTEN ON THE PROVIDED PORT 
-*/
+// Middlewares
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(logger("combined", { stream: accessLogStream }));
+
+// Connect to db
+mongoose
+  .connect(DB_URL)
+  .then(() => {
+    console.log("Connected to DB ...");
+  })
+  .catch(() => {
+    console.log("Error connecting to database");
+  });
+
+// Routes
+const userRoutes = require("./routes/user");
+// const eventRoutes = require("./routes/event");
+app.use("/api/users", userRoutes);
+// app.use("/api/events", eventRoutes);
+
+// Error Handling
+app.use((req, res, next) => {
+  const error = new Error("Not Found");
+  error.status = 404;
+  next(error);
+});
+
+app.use(function (err, req, res) {
+  res.status(err.status || 500);
+  res.json({
+    success: false,
+    message: err.message,
+    error: {},
+  });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server Listening on port ${PORT} ...`));
