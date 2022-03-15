@@ -1,15 +1,18 @@
 const express = require("express");
-
-// const {
-//   getAllUsers,
-//   login,
-//   signup,
-// } = require("../controllers/userController");
+const {
+  createEvent,
+  getAllEvents,
+  getRecentEvents,
+  updateEvent,
+  deleteEvent,
+} = require("../controllers/eventController");
 
 const router = express.Router();
 
-// router.get("/", getAllUsers);
-// router.post("/signup", signup);
-// router.post("/login", login);
+router.get("/", getAllEvents);
+router.get("/recent/:numberOfEvents", getRecentEvents);
+router.post("/", createEvent);
+router.patch("/:eventId", updateEvent);
+router.delete("/:eventId", deleteEvent);
 
 module.exports = router;

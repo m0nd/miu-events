@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const rfs = require("rotating-file-stream");
@@ -32,6 +33,7 @@ app.disable("x-powered-by");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(helmet());
 app.use(logger("combined", { stream: accessLogStream }));
 
 // Connect to db
@@ -46,9 +48,9 @@ mongoose
 
 // Routes
 const userRoutes = require("./routes/user");
-// const eventRoutes = require("./routes/event");
+const eventRoutes = require("./routes/event");
 app.use("/api/users", userRoutes);
-// app.use("/api/events", eventRoutes);
+app.use("/api/events", eventRoutes);
 
 // Error Handling
 app.use((req, res, next) => {
