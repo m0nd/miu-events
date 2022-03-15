@@ -12,20 +12,22 @@ const eventSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    startDate: {
-      type: Date,
-      required: true,
+    category: {
+      type: String,
     },
-    endDate: {
+    eventDate: {
       type: Date,
+    },
+    price: {
+      type: Number,
       required: true,
     },
     location: {
-      type: Geolocation,
+      type: [Number],
+      required: true,
     },
     address: {
       type: String,
-      required: true,
     },
     organizer: {
       type: mongoose.Schema.Types.ObjectId,
@@ -36,5 +38,12 @@ const eventSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+eventSchema.index({ location: "2d" });
+eventSchema.index({
+  category: "text",
+  title: "text",
+  description: "text",
+  address: "text",
+});
 
 module.exports = mongoose.model("Event", eventSchema);
