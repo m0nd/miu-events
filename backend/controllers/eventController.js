@@ -96,58 +96,29 @@ module.exports.deleteEvent = async (req, res) => {
   }
 };
 
-// Get recent 8 events
-module.exports.getRecentEvents = async (req, res) => {
-  const { numberOfEvents } = req.params;
+
+// Filter events by multiple conditions
+module.exports.filterEvents = async (req, res) => {
+  const filterCondition = req.query;
+
   try {
-    const data = await Event.find({})
-      .sort({ startDate: -1 })
-      .limit(parseInt(numberOfEvents));
+    const filteredEvents = await Event.find(filterCondition, {
+      title: 1,
+      description: 1,
+      address: 1,
+      price: 1,
+      organizer: 1,
+    }).populate("organizer", { firstname: 1, lastname: 1, email: 1 });
 
-    return res.status(200).json({
-      success: true,
-      message: "Retrieved List of Events",
-      data: data,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Server Failure. Try later ...",
-    });
-  }
-};
-
-// Search for events using any search term
-module.exports.searchEvents = async (req, res) => {
-  try {
-    const { searchTerm } = req.query;
-    const searchResult = await Event.find(
-      { $text: { $search: searchTerm } },
-      {
-        title: 1,
-        description: 1,
-        eventDate: 1,
-        price: 1,
-        address: 1,
-        organizer: 1,
-      }
-    ).populate("organizer", { _id: 0, firstname: 1, lastname: 1 });
-
-    if (searchResult.length == 0) {
-      return res.json({
-        success: true,
-        message:
-          "No events matched your search. See if you like these popular events...",
-      });
-    }
     res.status(200).json({
       success: true,
-      data: searchResult,
+      message: "Here are the events that match your filters",
+      data: filteredEvents,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Server Failure: " + error,
+      message: "Server failure. Try later ...",
     });
   }
 };
