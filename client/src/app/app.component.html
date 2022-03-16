@@ -1,14 +1,19 @@
 <div id="app">
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <a href="#" class="navbar-brand">MIU EVENTS</a>
-    <ul class="navbar-nav mr-auto" routerLinkActive="active">
-      <li class="nav-item">
-        <a href="/home" class="nav-link" routerLink="home">Home </a>
-      </li> 
+    
+    <ul class="navbar-nav mr-auto" routerLinkActive="active">  
       <li class="nav-item">
         <a href="/events" class="nav-link" routerLink="events">Events </a>
       </li>
     </ul>
+    <div class="input-group rounded">
+      <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+        aria-describedby="search-addon" />
+      <span class="input-group-text border-0" id="search-addon">
+        <i class="fas fa-search"></i>
+      </span>
+    </div>
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
       <li class="nav-item">
         <a href="/login" class="nav-link" routerLink="login">Login</a>

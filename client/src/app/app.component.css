@@ -2,3 +2,6 @@ nav {
   background: #35424a;
   border-bottom: #e8491d 3px solid;
 }
+.input-group {
+  width: 70%;
+}

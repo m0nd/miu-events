@@ -1,0 +1,18 @@
+<div class="container">
+  <header class="jumbotron">
+    Welcome to MIU Events 
+  </header>
+  <div class="row mb-3 mt-0"><h2>Popular Events</h2></div>
+  <div class="row">
+    <div class="col-md-4 mb-3" *ngFor="let event of events">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title"><a href="#">{{event.title}}</a></h5> 
+          <p>{{event.category}}</p>
+          <p ><span class="primary">{{event.eventDate | date:'medium'}}</span></p>
+          <p><i>{{event.price | currency}}</i></p>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
