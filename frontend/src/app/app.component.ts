@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
+import { SearchService } from './services/search.service';
 
 @Component({
   selector: 'app-root',
@@ -43,7 +44,7 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   searchResults: any = [];
   searchTerm = '';
-  constructor(public auth: AuthService, private http: HttpClient, private api: ApiService) {
+  constructor(public auth: AuthService, private http: HttpClient, private api: ApiService, private search: SearchService) {
 
   }
 
@@ -53,9 +54,11 @@ export class AppComponent {
     
     
     // Make a get request with user input to the API
-    this.http.get(this.api.baseUrl + '/events/search?searchTerm=' + this.searchTerm, {}).subscribe(response => {
+    this.http.get(this.api.baseUrl + '/events/search?searchTerm=' + this.searchTerm).subscribe((response: any) => {
       this.searchResults = response;
-      console.log(this.searchResults.data);
+      //console.log(this.searchResults.data);
+      //console.log(response.data);
+      this.search.getResultsFor(response.data);
       /* 
         Send response to a searchService e.g. this.search.getResultsFor(response)
         this.search.getResults(response)

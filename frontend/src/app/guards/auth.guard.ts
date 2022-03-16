@@ -7,19 +7,22 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
+  private isLoggedIn: boolean;
   constructor(private auth: AuthService) {
+    this.isLoggedIn = false;
+  }
 
+  ngOnInit() {
+    this.auth.isLoggedIn$.subscribe((status:boolean) => {
+      this.isLoggedIn = status;
+    });
   }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    // let isLoggedIn = false;
-
-    // this.auth.isLoggedIn$.subscribe((status:boolean) => {
-    //   isLoggedIn = status;
-    // });
-      return true;
+        
+    return this.isLoggedIn;
   }
   
 }
