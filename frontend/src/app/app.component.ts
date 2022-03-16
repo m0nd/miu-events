@@ -53,13 +53,12 @@ export class AppComponent {
     // Make a get request with user input to the API
     this.http.get(this.api.baseUrl + '/events/search?searchTerm=' + this.searchTerm, {}).subscribe(response => {
       console.log(response);
+      // Send response to a searchService e.g. this.search.getResultsFor(response)
+      // router.navigate(['results'])
     })
   }
 
   logOut() {
     this.auth.logOut();
   }
-
-  // /events/:id req.params
-  // /events/search?term=xyz req.query
 }
