@@ -5,6 +5,9 @@
       <li class="nav-item">
         <a href="/home" class="nav-link" routerLink="home">Home </a>
       </li> 
+      <li class="nav-item">
+        <a href="/events" class="nav-link" routerLink="events">Events </a>
+      </li>
     </ul>
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
       <li class="nav-item">
@@ -22,4 +25,7 @@
     </ul>
   </nav> 
 </div>
-<router-outlet></router-outlet>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+

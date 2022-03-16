@@ -18,7 +18,7 @@ router.get("/recent/:numberOfEvents", getRecentEvents);
 // router.get("/filter", filterEvents);
 router.post("/", createEvent);
 // router.post("/", verifyToken, createEvent);
-router.post("/search", searchEvents);
+router.get("/search", searchEvents);
 router.patch("/:eventId", verifyToken, updateEvent);
 router.delete("/:eventId", verifyToken, deleteEvent);
 
