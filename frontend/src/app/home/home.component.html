@@ -1,7 +1,18 @@
+
+<div id="searchItem">
+  <mat-form-field appearance="outline" class="main-search">
+    <mat-label>Search for anything...</mat-label>
+    <input matInput type="search" [value]="searchTerm" placeholder="E.g. live music" (keyup.enter)="searchEvents($event)">
+    <button *ngIf="searchTerm" matSuffix mat-icon-button aria-label="Clear" (click)="searchTerm=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
 <header class="home-header">
   <h1>Current Events Near MIU</h1>
 </header>
 <mat-grid-list cols="4">
+  <div class="non-existent-data"><h3>{{noDataMessage}}</h3></div>
     <mat-grid-tile *ngFor="let event of eventsList">
         <mat-card class="event-card">
             <mat-card-header>

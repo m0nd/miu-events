@@ -1,7 +1,17 @@
 .mat-card {
-    text-align: center;
+  text-align: center;
 }
 
 .home-header {
-    margin-left: 1em;
+  margin-left: 2em;
+}
+.mat-form-field,
+.non-existent-data {
+  margin-left: 30px;
+  width: 600px;
+  margin-top: 30px;
+}
+.mat-grid-tile-content {
+  padding: 0;
+  margin: 0;
 }

@@ -141,8 +141,7 @@ module.exports.searchEvents = async (req, res) => {
     if (searchResult.length == 0) {
       return res.json({
         success: true,
-        message:
-          "No events matched your search. See if you like these popular events...",
+        message: "No events matched your search",
       });
     }
     res.status(200).json({
