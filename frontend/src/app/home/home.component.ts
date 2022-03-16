@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-home',
@@ -8,11 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   eventsList: any;
-  private baseApiUrl: string = 'http://localhost:3000/api';
 
-  constructor(private http: HttpClient) { 
-    http.get(this.baseApiUrl + '/events').subscribe((res: any) => {
-      console.log(res);
+  constructor(private http: HttpClient, private api: ApiService) { 
+    http.get(this.api.baseUrl + '/events').subscribe((res: any) => {
       this.eventsList = res.data;
     })
   }
