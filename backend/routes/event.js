@@ -4,7 +4,7 @@ const verifyToken = require("../middlewares/verifyToken");
 const {
   createEvent,
   getAllEvents,
-  getRecentEvents,
+  // getRecentEvents,
   updateEvent,
   deleteEvent,
   filterEvents,
@@ -14,8 +14,8 @@ const {
 const router = express.Router();
 
 router.get("/", getAllEvents);
-router.get("/recent/:numberOfEvents", getRecentEvents);
-// router.get("/filter", filterEvents);
+// router.get("/recent/:numberOfEvents", getRecentEvents);
+router.get("/filter", filterEvents);
 router.post("/", verifyToken, createEvent);
 router.get("/search", searchEvents);
 router.patch("/:eventId", verifyToken, updateEvent);
