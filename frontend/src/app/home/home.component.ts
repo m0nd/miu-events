@@ -11,12 +11,13 @@ export class HomeComponent implements OnInit {
   eventsList: any;
 
   constructor(private http: HttpClient, private api: ApiService) { 
-    http.get(this.api.baseUrl + '/events').subscribe((res: any) => {
-      this.eventsList = res.data;
-    })
+    
   }
 
   ngOnInit(): void {
+    this.http.get(this.api.baseUrl + '/events').subscribe((res: any) => {
+      this.eventsList = res.data;
+    })
   }
 
 }
