@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, of, Subscription } from 'rxjs';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ApiService } from '../services/api.service';
+import jwt_decode from 'jwt-decode';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'signup-form',
@@ -10,10 +14,9 @@ import { Observable, of, Subscription } from 'rxjs';
 })
 export class SignupComponent {
   myForm: FormGroup;
-  //private baseApiUrl: string = 'http://localhost:3000/api';
   private subscription: Subscription | undefined;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) { 
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private api: ApiService, private router: Router, private auth: AuthService) { 
     this.myForm = formBuilder.group({
       // params: default-val, validators (sync), validators (async)
       'firstname': ['', Validators.required],
@@ -24,8 +27,7 @@ export class SignupComponent {
   }
 
   onSubmit() {
-    console.log(this.myForm.value);
-    
+    this.auth.doLogin(this.myForm.value, this.api.baseUrl + '/users/signup');
   }
 
   ngOnDestroy() {

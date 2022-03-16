@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ApiService } from '../services/api.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-signin',
@@ -11,7 +13,7 @@ export class SigninComponent implements OnInit {
   myForm: FormGroup;
   private subscription: Subscription | undefined;
 
-  constructor(private fb: FormBuilder) { 
+  constructor(private fb: FormBuilder, private api: ApiService, private auth: AuthService) { 
     this.myForm = fb.group({
       'email': ['', Validators.compose([Validators.required, Validators.email])],
       'password': ['', Validators.required],
@@ -21,15 +23,8 @@ export class SigninComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  uniqueEmailValidator(control: FormControl): { [key: string]: boolean } | null {
-    if (control.value === 'asaad') {
-      return {'unique': false};
-    }
-    return null;
-  }
-
   onSubmit() {
-
+    this.auth.doLogin(this.myForm.value, this.api.baseUrl + '/users/login');
   }
 
 }

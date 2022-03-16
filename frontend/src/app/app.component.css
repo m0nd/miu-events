@@ -1,3 +1,14 @@
+.main-toolbar {
+    padding-top: 3em;
+    padding-bottom: 2em;
+}
+
 .toolbar-spacer {
     flex: 1 1 auto;
+}
+
+.main-search {
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 60%;
 }
