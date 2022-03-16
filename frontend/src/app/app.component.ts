@@ -10,13 +10,13 @@ import { AuthService } from './services/auth.service';
       <a mat-button [routerLink]="['home']">
         <span>MIU-EVENTS</span>  
       </a>
-      <!-- <mat-form-field appearance="outline" class="main-search">
+      <mat-form-field appearance="outline" class="main-search">
         <mat-label>Search for anything...</mat-label>
         <input matInput type="search" [value]="searchTerm" placeholder="E.g. live music" (keyup.enter)="searchEvents($event)">
         <button *ngIf="searchTerm" matSuffix mat-icon-button aria-label="Clear" (click)="searchTerm=''">
           <mat-icon>close</mat-icon>
         </button>
-      </mat-form-field> -->
+      </mat-form-field>
       
       <span class="toolbar-spacer"></span>
       <a mat-button color="accent" [routerLink]="['browse']">
@@ -56,7 +56,14 @@ export class AppComponent {
     this.http.get(this.api.baseUrl + '/events/search?searchTerm=' + this.searchTerm, {}).subscribe(response => {
       this.searchResults = response;
       console.log(this.searchResults.data);
-      // Send response to a searchService e.g. this.search.getResultsFor(response)
+      /* 
+        Send response to a searchService e.g. this.search.getResultsFor(response)
+        this.search.getResults(response)
+
+        In searchService...
+        this.router.navigate(['results'])
+
+      */
       // router.navigate(['results'])
     })
   }

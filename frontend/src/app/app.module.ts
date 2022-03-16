@@ -12,6 +12,7 @@ import { SigninComponent } from './sign-in/signin.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SearchresultsComponent } from './search/searchresults.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     HomeComponent,
     SigninComponent,
     DashboardComponent,
+    SearchresultsComponent,
   ],
   imports: [
     BrowserModule,
